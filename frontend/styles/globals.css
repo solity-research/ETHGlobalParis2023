@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --bgPrimary: #191a23;
+  --textPrimary: #eeeffc;
+  --border: #2c2d3c;
+  --textSecondary: #d2d3e0;
+  --bgSecondary: #1f2130;
+  --icon: #858699;
+  --bgSecondaryHighlighted: #26273b;
+  --highlight-color: #575bc7;
+  --red: #eb5757;
+  --yellow: #f2c94c;
+  --green: #4cb782;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--textPrimary));
+}
