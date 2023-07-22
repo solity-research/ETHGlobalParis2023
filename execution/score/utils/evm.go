@@ -20,6 +20,10 @@ func CalculateAAVEStatus(callerAddress string, eClient *ethclient.Client, pClien
 	// Convert the given addresses into the corresponding struct
 	caller := common.HexToAddress(callerAddress)
 
+	if caller == common.HexToAddress("") {
+		return
+	}
+
 	iterateThroughTheAddresses(ethAddresses, &accountBalance, caller, eClient)
 	iterateThroughTheAddresses(polygonAddresses, &accountBalance, caller, pClient)
 
@@ -100,7 +104,7 @@ func iterateThroughTheAddresses(inputs []structs.AAVEAssets, output *[]structs.A
 			BaseToken:       address.BaseTokenAddress,
 			PositiveBalance: baseTokenBalance + colleteralBalance,
 			NegativeBalance: debtBalance,
-			})
+		})
 
 	}
 	return
