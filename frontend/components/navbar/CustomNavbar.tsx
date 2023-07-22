@@ -28,14 +28,14 @@ const CustomNavbar = () => {
                     <Link href="/credit">
                         <p className="text-lg font-semibold text-indigo-500">Learn Credit Score</p>
                     </Link>
-                    <Link href="/dashboard/aave">
-                        <p className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-700">Aave</p>
+                    <Link href="/credit/verify">
+                        <p className="text-lg font-semibold text-gray-600">Learn Credit Score</p>
                     </Link>
                     <Link href="/dashboard/compound">
-                        <p className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-700">Compound</p>
+                        <p className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-700">Compound Market Data</p>
                     </Link>
                     <Link href="/dashboard/uniswap">
-                        <p className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-700">Uniswap</p>
+                        <p className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-700">Uniswap Market Data</p>
                     </Link>
                 </nav>
                 <div className="hidden w-full lg:flex md:block md:w-auto" id="navbar-default">
