@@ -1,10 +1,13 @@
 package oracle
 
 import (
+	"ETHGlobalParis2023/execution/abis/ChainlinkAggregatorV3"
+	"ETHGlobalParis2023/execution/score/structs"
 	"encoding/json"
 	"errors"
+	"github.com/ethereum/go-ethereum/common"
 	"io"
-	"log"
+	"math"
 	"math/big"
 	"net/http"
 	"strings"
@@ -42,8 +45,6 @@ func Get1InchPrice(address string) (price *big.Float, err error) {
 
 	err = json.Unmarshal(body, &target)
 
-	log.Println(target)
-
 	if err != nil {
 		return
 	}
@@ -60,6 +61,40 @@ func Get1InchPrice(address string) (price *big.Float, err error) {
 	if !status {
 		err = errors.New("unable to cast the return value to the big.Float")
 	}
+
+	return
+}
+
+func GetChainlinkPrice(input *structs.AAVEAccountBalance) (price *big.Float, err error) {
+	// Initialize the instance
+	aggregatorInstance, err := ChainlinkAggregatorV3.NewAggregatorV3InterfaceCaller(common.HexToAddress(input.ChainlinkOracleAddress),
+		input.BlockchainClient)
+
+	if err != nil {
+		return
+	}
+
+	decimals, err := aggregatorInstance.Decimals(nil)
+
+	if err != nil {
+		return
+	}
+
+	latestRoundData, err := aggregatorInstance.LatestRoundData(nil)
+
+	if err != nil {
+		return
+	}
+
+	// Sanity check
+	if decimals <= 0 {
+		err = errors.New("unable to get meaningful data")
+		return
+	}
+
+	roundPrice := big.NewFloat(0).SetInt(latestRoundData.Answer)
+
+	price = big.NewFloat(0).Quo(roundPrice, big.NewFloat(math.Pow(10, float64(decimals))))
 
 	return
 }
