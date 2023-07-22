@@ -2,10 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { Identity } from "@semaphore-protocol/identity"
 import { Group } from "@semaphore-protocol/group"
 import { generateProof } from "@semaphore-protocol/proof"
+import { BigNumber, utils } from 'ethers';
+
 
 const CreditScore = () =>{
     const [_identity, setIdentity] = useState()
-    const [_users, addUsers] = useState([])
+    const [_users, setUsers] = useState([])
 
     const createIdentity = useCallback(async () => {
         const identity = new Identity()
@@ -13,6 +15,8 @@ const CreditScore = () =>{
         setIdentity(identity)
 
     }, [])
+
+    
 
     const joinGroup = async() => {
         const response = await fetch("api/sem/join", {
@@ -24,43 +28,56 @@ const CreditScore = () =>{
         })
         console.log(response);
         if (response.status == 200) {
-            addUsers(_identity.commitment.toString())
+            const newUsers = _identity.commitment.toString();
+            console.log("newwwUsers:", newUsers);
+            setUsers([newUsers]);
         }
-        sendCreditScore();
-        
     }
-    
-    const sendCreditScore = async() => {
-        const group = new Group(process.env.GROUP_ID, 20,_users)
-        console.log("group:", group);
 
-                const signal = BigNumber.from(utils.formatBytes32String("10000")).toString()
-                console.log("signal:", signal);
-                const creditScore = getCreditScore();
-                const { proof, merkleTreeRoot, nullifierHash } = await generateProof(
-                    _identity,
-                    group,
-                    env.GROUP_ID,
-                    signal
-                )
-                const response = await fetch("api/sem/proof", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        proof: proof,
-                        merkleTreeRoot: merkleTreeRoot,
-                        nullifierHash: nullifierHash,
-                        creditScore: creditScore
+    useEffect(() => {
+        const sendCreditScore = async() => {
+            //console.log("GROUP_ID:", process.env.GROUP_ID);
+            console.log("userssssss:", _users);
+            const group = new Group(516,  16,_users)
+            console.log("group:", group);
+            console.log("İdentity:", _identity);
+            const creditScore = getCreditScore();
+                    const signal = creditScore;
+                    console.log("signal:", signal);
+                    
+                    const { proof, merkleTreeRoot, nullifierHash } = await generateProof(
+                        _identity,
+                        group,
+                        516,
+                        signal
+                    )
+                    console.log("proof:","merkleTree","nullifierHash", proof, merkleTreeRoot, nullifierHash);
+                    const response = await fetch("api/sem/proof", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            creditScore: signal,
+                            merkleTreeRoot: merkleTreeRoot,
+                            nullifierHash: nullifierHash,
+                            proof: proof 
+                        })
                     })
-                })
-    }
+                    console.log("RESPONSEEE",response);
+        }
+        if(_users.length > 0){
+            sendCreditScore();
+        }
+    }, [_users])
 
-    useEffect(()=>{
+    
+    
+
+    
         const getCreditScore = () =>{
             //TODO get credit score
             return 200;
         }
-    },[])
+   
 
     return(
         <div>
