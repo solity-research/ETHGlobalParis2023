@@ -16,7 +16,7 @@ func main() {
 
 	log.Print("Server listening on http://localhost:3000/")
 
-	if err := http.ListenAndServe(":3000", rtr); err != nil {
+	if err := http.ListenAndServe(":3002", rtr); err != nil {
 		log.Fatalf("There was an error with the http server: %v", err)
 	}
 }
