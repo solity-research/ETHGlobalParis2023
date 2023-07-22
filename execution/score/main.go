@@ -31,7 +31,7 @@ func main() {
 	temp := ethGlobalParisUtils.CalculateAAVEStatus(os.Getenv("TARGET_ADDRESS"), ethereumClient, polygonClient)
 
 	if len(temp) <= 0 {
-		log.Println("No asset info has been gathered")
+		fmt.Println("STATUS: FAIL")
 		return
 	}
 
