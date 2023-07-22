@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Identity } from "@semaphore-protocol/identity"
 
 const CreditScore = () => {
@@ -29,6 +29,10 @@ const CreditScore = () => {
                 identityCommitment: _identity.commitment.toString()
             })
         })
+        console.log(response);
+        if (response.status == 200) {
+            //addUsers(_identity.commitment.toString())
+        }        
     }
     
     const openScoreText = () =>{
@@ -39,6 +43,7 @@ const CreditScore = () => {
     useEffect(() => {
         const getCreditScore = () => {
             //TODO get credit score
+            return 200;
         }
         if(_identity != null){
             joinGroup();

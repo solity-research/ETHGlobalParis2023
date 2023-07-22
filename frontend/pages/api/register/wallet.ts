@@ -3,29 +3,15 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import ProofStore from "../../../contract_abi/ProofStore.json"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (typeof process.env.FEEDBACK_CONTRACT_ADDRESS !== "string") {
-        throw new Error("Please, define FEEDBACK_CONTRACT_ADDRESS in your .env file")
-    }
-
-    if (typeof process.env.DEFAULT_NETWORK !== "string") {
-        throw new Error("Please, define DEFAULT_NETWORK in your .env file")
-    }
-
-    if (typeof process.env.INFURA_API_KEY !== "string") {
-        throw new Error("Please, define INFURA_API_KEY in your .env file")
-    }
-
-    if (typeof process.env.ETHEREUM_PRIVATE_KEY !== "string") {
-        throw new Error("Please, define ETHEREUM_PRIVATE_KEY in your .env file")
-    }
-
     const ethereumPrivateKey = process.env.ETHEREUM_PRIVATE_KEY
     const ethereumNetwork = process.env.DEFAULT_NETWORK
-    const infuraApiKey = process.env.INFURA_API_KEY
-    const contractAddress = process.env.PROOF_STORE
+    const alchemyApiKey = process.env.ALCHEMY_API_KEY
+    const contractAddress = process.env.CREDITSCORE_CONTRACT_ADDRESS
 
-    const provider = new providers.InfuraProvider(ethereumNetwork, infuraApiKey)
+    console.log("ethereumPrivateKey", ethereumPrivateKey, ethereumNetwork, alchemyApiKey, contractAddress)
 
+    const provider = new providers.AlchemyProvider("maticmum", alchemyApiKey)
+    
     const signer = new Wallet(ethereumPrivateKey, provider)
     const contract = new Contract(contractAddress, ProofStore.abi, signer)
 

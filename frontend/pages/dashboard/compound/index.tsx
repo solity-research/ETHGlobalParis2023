@@ -14,51 +14,38 @@ const CompoundPortal = () => {
                 console.error('Error fetching data:', error);
             }
         };
-
-        if (data != null) {
-            const marketNames = data.map((market) => market.name);
-            const borrowRates = data.map((market) => parseFloat(market.borrowRate));
-        } else {
-            fetchData();
-        }
-    }, [data]);
-
-
+        fetchData();
+    },[]);
 
     return (
-        <div>
-            <div>
-                <h2>Market Rates Chart</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Borrow Rate</th>
-                            <th>Cash</th>
+        <div className="px-96 mt-10 ">
+            <table className="w-full text-sm text-left text-gray-500 ">
+                <thead className="text-xs  uppercase bg-gray-5 bg-gray-700 text-gray-400">
+                    <tr>
+                        <th scope="col" className="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Borrow Rate
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Cash
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data != undefined && data.map((market) => (
+                        <tr className="border-b text-white bg-gray-800 border-gray-700" key={market.id}>
+                            <td className="px-6 py-4">{market.name}</td>
+                            <td className="px-6 py-4">{parseFloat(market.borrowRate).toFixed(6)}</td>
+                            <td className="px-6 py-4">{parseFloat(market.cash).toFixed(2)}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {data != undefined && data.map((market) => (
-                            <tr key={market.id}>
-                                <td>{market.name}</td>
-                                <td>{parseFloat(market.borrowRate).toFixed(6)}</td>
-                                <td>{parseFloat(market.cash).toFixed(2)}</td>
-                                {/* Add other table data cells for the properties you want to display */}
-                                {/* Example: <td>{parseFloat(market.collateralFactor).toFixed(2)}</td> */}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }
-interface MarketData {
-    data: {
-        markets: Market[];
-    };
-}
-
 interface Market {
     borrowRate: string;
     cash: string;

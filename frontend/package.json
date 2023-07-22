@@ -8,17 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/rd-component.es.js",
-      "require": "./dist/rd-component.umd.js"
-    },
-    "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
-    }
-  },
   "dependencies": {
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/sdk": "^0.3.2",
@@ -32,6 +21,7 @@
     "@types/react-dom": "18.2.7",
     "@walletconnect/web3wallet": "^1.8.7",
     "@worldcoin/idkit": "^0.5.1",
+    "alchemy-sdk": "^2.9.2",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "eslint": "8.45.0",

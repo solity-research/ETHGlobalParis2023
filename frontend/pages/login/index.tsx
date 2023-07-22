@@ -35,9 +35,74 @@ const Login = () => {
     const router = useRouter()
 
     const onSuccess = (data:ISuccessResult) => {
+        setWordCoinAddress(data.nullifier_hash)
         fetch("/api/verify", {
             method: "POST",
             body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((_) => {
+                isWalletExists()
+                // Handle the response data
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle the error
+            });
+            setStepNumber(value => value + 1)
+    }
+
+    const isWalletExists = () => {
+        fetch("/api/login/wallet/exists", {
+            method: "POST",
+            body: JSON.stringify({
+                userNullifier: wordCoinAddress
+            })
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if(response.code == 200){
+                    isAddressCorrect()
+                }else{
+                    register()
+                }
+                // Handle the response data
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle the error
+            });
+            setStepNumber(value => value + 1)
+    }
+
+    const isAddressCorrect = () => {
+        fetch("/api/login/wallet/correct", {
+            method: "POST",
+            body: JSON.stringify({
+                userNullifier: wordCoinAddress,
+                wallet: wallet.accounts[0]
+            })
+        })
+            .then((response) => response.json())
+            .then((_) => {
+                localStorage.setItem("account",wallet.accounts[0])
+                router.push("/credit")
+                // Handle the response data
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle the error
+            });
+            setStepNumber(value => value + 1)
+    }
+
+    const register = () => {
+        fetch("/api/register/wallet", {
+            method: "POST",
+            body: JSON.stringify({
+                userNullifier: wordCoinAddress,
+                wallet: wallet.accounts[0]
+            })
         })
             .then((response) => response.json())
             .then((_) => {
@@ -130,11 +195,9 @@ const Login = () => {
                     .then((response) => response.json())
                     .then((data) => {
                         setValidOtpCode(data);
-                        // Handle the response data
                     })
                     .catch((error) => {
                         console.error('Error:', error);
-                        // Handle the error
                     });
                     setStepNumber(value => value + 1)
             }else if(stepNumber == 1){
