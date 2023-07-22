@@ -1,64 +1,6 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const positionQuery = `
-  query HomeData {
-    positions {
-      owner
-      liquidity
-      pool {
-        volumeToken0
-        volumeToken1
-        id
-        liquidity
-        token1 {
-          name
-          volume
-          totalValueLocked
-          symbol
-        }
-        token0 {
-          name
-          volume
-          totalValueLocked
-          symbol
-        }
-      }
-    }
-    tokenHourDatas {
-      priceUSD
-      low
-      high
-      volume
-      token {
-        name
-        symbol
-      }
-    }
-  }
-`;
-
-const poolQuery = `
-    query HomeData {
-        pools {
-        liquidity
-        token1 {
-            name
-            symbol
-            totalSupply
-            volume
-        }
-        token0 {
-            name
-            symbol
-            totalSupply
-            volume
-        }
-        id
-        }
-    }
-`
-
 const uniswapAnalysis = `
   query MyQuery {
     uniswapDayDatas(first: 30) {

@@ -1,24 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Identity } from "@semaphore-protocol/identity"
 import { Group } from "@semaphore-protocol/group"
 import { generateProof } from "@semaphore-protocol/proof"
 import { BigNumber, utils } from 'ethers';
 
 
-const CreditScore = () =>{
+const CreditScore = () => {
+    const saveScoreText = "Save Score"
+    const showScoreText = "Show Score"
+    const createIdentityText = "Create Identity"
     const [_identity, setIdentity] = useState()
     const [_users, setUsers] = useState([])
+    const [score,setScore] = useState()
+    const [showScore,setShowScore] = useState(false)
+    const [buttonText, setButtonText] = useState(createIdentityText)
 
-    const createIdentity = useCallback(async () => {
+    const createIdentity = () => {
         const identity = new Identity()
         console.log(identity);
-        setIdentity(identity)
-
-    }, [])
-
+        setIdentity(identity);
+        setButtonText(showScoreText);
+    }
     
+    const saveScoreToContract = () =>{
 
-    const joinGroup = async() => {
+    }
+
+    const joinGroup = async () => {
         const response = await fetch("api/sem/join", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -76,33 +84,56 @@ const CreditScore = () =>{
         const getCreditScore = () =>{
             //TODO get credit score
             return 200;
+        }      
+    
+    const openScoreText = () =>{
+        setShowScore(true);
+        setButtonText(saveScoreText);
+    }
+
+    useEffect(() => {
+        const getCreditScore = () => {
+            //TODO get credit score
+            return 200;
         }
-   
-
-    return(
+        if(_identity != null){
+            joinGroup();
+        }
+    }, [_identity])
+    
+    return (
         <div>
-            <a href="#" class="flex flex-col items-center gap-1 text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
-            onClick={(e) => {e.preventDefault(); createIdentity();}} 
-            >
-      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z" clip-rule="evenodd" />
-      </svg>
-
-      <span>Create Identity</span>
-    </a>
-    { _identity && 
-    (
-    <a href="#" class="flex flex-col items-center gap-1 text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
-            onClick={(e) => {e.preventDefault(); joinGroup();}} 
-            >
-      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z" clip-rule="evenodd" />
-      </svg>
-
-      <span>Join Group</span>
-    </a>
-    )
-    }   
+            <div class="flex flex-wrap gap-x-4 mt-10 mx-20 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
+                <div class="flex flex-1 flex-col justify-between py-4">
+                    {_identity != undefined &&
+                        <div class="mx-32">
+                            <div class="mt-5">
+                                <label for="trapdoor" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Trapdoor</label>
+                                <input disabled value={_identity.trapdoor.toString()} name="trapdoor" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+                            </div>
+                            <div class="mt-5">
+                                <label for="nullifier" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Nullifier</label>
+                                <input disabled value={_identity.nullifier.toString()} name="nullifier" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+                            </div>
+                            <div class="mt-5">
+                                <label for="commitment" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Commitment</label>
+                                <input disabled value={_identity.commitment.toString()} name="commitment" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+                            </div>
+                        </div>
+                    }
+                    {showScore  &&
+                        <div class="mx-32">
+                            <div class="mt-5">
+                                <label for="trapdoor" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Your Score</label>
+                                <input disabled value={score} name="trapdoor" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+                            </div>
+                        </div>
+                    }
+                    <div class="mx-32 mt-20">
+                        <button onClick={buttonText == showScoreText ? openScoreText : buttonText == saveScoreText ? saveScoreToContract : createIdentity} type="button" className="text-white w-full bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">{buttonText}</button>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
