@@ -101,9 +101,11 @@ func iterateThroughTheAddresses(inputs []structs.AAVEAssets, output *[]structs.A
 		}
 
 		*output = append(*output, structs.AAVEAccountBalance{
-			BaseToken:       address.BaseTokenAddress,
-			PositiveBalance: baseTokenBalance + colleteralBalance,
-			NegativeBalance: debtBalance,
+			BaseToken:              address.BaseTokenAddress,
+			PositiveBalance:        baseTokenBalance + colleteralBalance,
+			NegativeBalance:        debtBalance,
+			ChainlinkOracleAddress: address.ChainlinkOracleAddress,
+			BlockchainClient:       bClient,
 		})
 
 	}
