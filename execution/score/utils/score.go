@@ -1,8 +1,10 @@
 package ethGlobalParisUtils
 
 import (
+	"ETHGlobalParis2023/execution/score/oracle"
 	"ETHGlobalParis2023/execution/score/structs"
 	"errors"
+	"log"
 )
 
 func CalculateAAVEScore(input []structs.AAVEAccountBalance) (score float64, err error) {
@@ -19,6 +21,8 @@ func CalculateAAVEScore(input []structs.AAVEAccountBalance) (score float64, err 
 		}
 
 		currentScore += debtScore
+
+		log.Println(currentScore)
 	}
 
 	// Calculate the score
@@ -43,7 +47,16 @@ func calculateAAVEAssetDebtRatioScore(input structs.AAVEAccountBalance) (score f
 		return
 	}
 
-	ratio := input.NegativeBalance / input.PositiveBalance
+	price, getErr := oracle.Get1InchPrice(input.BaseToken)
+
+	ratio := float64(-1)
+
+	if getErr != nil {
+		ratio = input.NegativeBalance / input.PositiveBalance
+	} else {
+		priceFloat64, _ := price.Float64()
+		ratio = (input.NegativeBalance * priceFloat64) / (input.PositiveBalance * priceFloat64)
+	}
 
 	score = (1 - ratio) * 100
 
