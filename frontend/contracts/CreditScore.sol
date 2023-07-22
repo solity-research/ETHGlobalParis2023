@@ -22,6 +22,10 @@ contract CreditScore {
         commitments.push(identityCommitment);
     }
 
+    function getCommitments() public view returns (uint256[] memory) {
+        return commitments;
+    }
+
     function sendCreditScore(
         uint256 creditScore,
         uint256 merkleTreeRoot,
