@@ -22,9 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
 
-        
-        const transaction = await contract.sendCreditScore(creditScore, merkleTreeRoot,nullifierHash,proof);
-
+        console.log("creditScore, merkleTreeRoot,nullifierHash,proof", creditScore, merkleTreeRoot,nullifierHash,proof);
+        const transaction = await contract.sendCreditScore(creditScore, merkleTreeRoot, nullifierHash, proof);
+        console.log("transaction", transaction);
         await transaction.wait()
 
         res.status(200).end()
