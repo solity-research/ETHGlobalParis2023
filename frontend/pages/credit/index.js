@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Identity } from "@semaphore-protocol/identity"
+import { Group } from "@semaphore-protocol/group"
+import { generateProof } from "@semaphore-protocol/proof"
 
 const CreditScore = () =>{
     const [_identity, setIdentity] = useState()
+    const [_users, addUsers] = useState([])
 
     const createIdentity = useCallback(async () => {
         const identity = new Identity()
@@ -20,8 +23,38 @@ const CreditScore = () =>{
             })
         })
         console.log(response);
+        if (response.status == 200) {
+            addUsers(_identity.commitment.toString())
+        }
+        sendCreditScore();
+        
     }
     
+    const sendCreditScore = async() => {
+        const group = new Group(process.env.GROUP_ID, 20,_users)
+        console.log("group:", group);
+
+                const signal = BigNumber.from(utils.formatBytes32String("10000")).toString()
+                console.log("signal:", signal);
+                const creditScore = getCreditScore();
+                const { proof, merkleTreeRoot, nullifierHash } = await generateProof(
+                    _identity,
+                    group,
+                    env.GROUP_ID,
+                    signal
+                )
+                const response = await fetch("api/sem/proof", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        proof: proof,
+                        merkleTreeRoot: merkleTreeRoot,
+                        nullifierHash: nullifierHash,
+                        creditScore: creditScore
+                    })
+                })
+    }
+
     useEffect(()=>{
         const getCreditScore = () =>{
             //TODO get credit score
