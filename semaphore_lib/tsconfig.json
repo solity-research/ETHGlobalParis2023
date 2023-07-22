@@ -8,8 +8,19 @@
         "strict": true,
         "esModuleInterop": true,
         "outDir": "dist",
-        "typeRoots": ["node_modules/@types", "types"]
+        "typeRoots": [
+            "node_modules/@types",
+            "types"
+        ]
     },
-    "include": ["scripts/**/*", "tasks/**/*", "test/**/*", "build/typechain/**/*", "types/**/*"],
-    "files": ["./hardhat.config.ts"]
+    "include": [
+        "scripts/**/*",
+        "tasks/**/*",
+        "test/**/*",
+        "build/typechain/**/*",
+        "types/**/*"
+    ],
+    "files": [
+        "./hardhat.config.ts"
+    ]
 }
