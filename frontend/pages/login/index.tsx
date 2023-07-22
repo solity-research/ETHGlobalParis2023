@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { CredentialType, IDKitWidget, ISuccessResult } from '@worldcoin/idkit'
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 
 declare global {
     interface Window {
@@ -42,6 +41,7 @@ const Login = () => {
         })
             .then((response) => response.json())
             .then((_) => {
+                localStorage.setItem("account",wallet.accounts[0])
                 router.push("/credit")
                 // Handle the response data
             })
