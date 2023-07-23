@@ -40,9 +40,6 @@ const CustomNavbar = () => {
                     <Link href="/credit/example">
                         <p className="text-lg font-semibold text-indigo-500">Example Report</p>
                     </Link>
-                    <Link href="/credit/verify">
-                        <p className="text-lg font-semibold text-gray-600">Verify Credit Score</p>
-                    </Link>
                 </nav>
                 <div className="hidden w-full lg:flex md:block md:w-auto" id="navbar-default">
                     <div className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
