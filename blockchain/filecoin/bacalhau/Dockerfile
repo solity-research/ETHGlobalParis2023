@@ -6,6 +6,8 @@ RUN update-ca-certificates
 
 WORKDIR /
 ADD main ./main
+ADD success.jpeg ./success.jpeg
+ADD fail.jpeg ./fail.jpeg
 ADD score.env ./score.env
 
 ENTRYPOINT ./main
