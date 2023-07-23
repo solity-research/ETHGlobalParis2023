@@ -2,7 +2,7 @@ import express from 'express';
 import { Identity } from "@semaphore-protocol/identity"
 import { Group } from "@semaphore-protocol/group"
 import { generateProof } from "@semaphore-protocol/proof"
-import {ethers} from "ethers"
+import {ethers, Wallet} from "ethers"
 
 BigInt.prototype.toJSON = function() { return this.toString() }
 
@@ -127,20 +127,32 @@ const CONTRACT_ABI = [
 const RPC_URI = "https://rpc.ankr.com/polygon_mumbai"
 const GROUP_ID = 3245
 const EXTERNAL_NULLIFIER = ethers.encodeBytes32String("123456789")
+const PRV_KEY = "da929af080327162f2420e94b265122d4478b61abdd6994e05191c7dfa0a368b"
 
 
 var provider = new ethers.JsonRpcProvider(RPC_URI)
+var signer = new Wallet(PRV_KEY, provider)
+const contract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    CONTRACT_ABI,
+    signer
+)
 
-  const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      provider
-      )
 
 const app = express();
 
-app.get('/identity/:seed', (req, res) => {
+app.get('/identity/:seed', async (req, res) => {
     const identity = new Identity(req.params.seed)
+    res.send(identity);
+})
+
+app.get('/identity/:seed/run', async (req, res) => {
+    const identity = new Identity(req.params.seed)
+
+    const transaction = await contract.joinGroup(identity.commitment)
+    console.log("transaction", transaction);
+    await transaction.wait()
+
     res.send(identity);
 })
 
@@ -150,23 +162,48 @@ app.get('/getCommitments', async (req, res) => {
 })
 
 app.get('/generateProof/:seed/:score', async (req, res) => {
-    
+
     const commitments = await contract.getCommitments();
     var theGroup = new Group(GROUP_ID, 16)
     var identity = new Identity(req.params.seed)
     var signal = ethers.encodeBytes32String(req.params.score)
-    
+
     commitments.forEach(element => {
         theGroup.addMember(element)
     });
-    
-    theGroup.addMember(identity.commitment)
-    
+
+    //theGroup.addMember(identity.commitment)
+
     var fullProof = await generateProof(identity, theGroup, EXTERNAL_NULLIFIER, signal, {
         zkeyFilePath: "./semaphore.zkey",
         wasmFilePath: "./semaphore.wasm"
     })
-    
+
+    res.send(fullProof);
+})
+
+app.get('/generateProof/:seed/:score/execute', async (req, res) => {
+
+    const commitments = await contract.getCommitments();
+    var theGroup = new Group(GROUP_ID, 16)
+    var identity = new Identity(req.params.seed)
+    var signal = ethers.encodeBytes32String(req.params.score)
+
+    commitments.forEach(element => {
+        theGroup.addMember(element)
+    });
+
+    //theGroup.addMember(identity.commitment)
+
+    var fullProof = await generateProof(identity, theGroup, EXTERNAL_NULLIFIER, signal, {
+        zkeyFilePath: "./semaphore.zkey",
+        wasmFilePath: "./semaphore.wasm"
+    })
+
+    const transaction = await contract.sendCreditScore(fullProof.signal, fullProof.merkleTreeRoot, fullProof.nullifierHash, fullProof.proof)
+    console.log("transaction", transaction);
+    await transaction.wait()
+
     res.send(fullProof);
 })
 

@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const signer = new Wallet(ethereumPrivateKey, provider)
     const contract = new Contract(contractAddress, CreditScore.abi, signer)
 
-    const { creditScore, merkleTreeRoot,nullifierHash,proof } = req.body
+    const { creditScore, merkleTreeRoot, nullifierHash,proof } = req.body
 
     try {
 
