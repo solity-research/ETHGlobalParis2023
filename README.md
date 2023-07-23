@@ -1,4 +1,8 @@
 # ETHGlobalParis2023
+
+![Logo](https://github.com/solity-research/ETHGlobalParis2023/blob/main/figures/logo.png?raw=true)
+
+
 # CréditDécentrale
 
 CréditDécentrale is a project created for the ETHParis '23 Hackathon. Our project aims to address the existing issues in the current DeFi ecosystem by introducing a fresh breath of air in the decentralized credit system. The prevalent problem with traditional lending protocols is the heavy reliance on overcollateralization of assets, leading to inefficiencies and limited access to credit for borrowers. To overcome these challenges, we have designed a decentralized credit scoring system that leverages several technologies such as Bacalhau's Decentralized Computation , Filecoin’s Decentralized Storage as well as zkSNARKs for the private and secure score verification process.
