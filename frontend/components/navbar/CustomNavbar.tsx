@@ -30,18 +30,15 @@ const CustomNavbar = () => {
     return (
         <nav className=" border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="" className="flex items-center">
+                <Link href="/compound" className="flex items-center">
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CréditDécentrale</span>
-                </a>
+                </Link>
                 <nav className="hidden gap-12 lg:flex">
                     <Link href="/credit">
                         <p className="text-lg font-semibold text-indigo-500">Learn Credit Score</p>
                     </Link>
                     <Link href="/credit/example">
                         <p className="text-lg font-semibold text-indigo-500">Example Report</p>
-                    </Link>
-                    <Link href="/credit/verify">
-                        <p className="text-lg font-semibold text-gray-600">Verify Credit Score</p>
                     </Link>
                 </nav>
                 <div className="hidden w-full lg:flex md:block md:w-auto" id="navbar-default">
