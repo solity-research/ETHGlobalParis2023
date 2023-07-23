@@ -1,3 +1,3 @@
-![zkSNARK Sequence Visualization](https://github.com/solity-research/ETHGlobalParis2023/blob/main/figures/zkSNARKs.png?raw=true)
+![zkSNARK Sequence Visualization](https://github.com/solity-research/ETHGlobalParis2023/blob/main/figures/zkSNARKS.png?raw=true)
 
-Visualization of the zkSNARK sequence happening in our system.
+Visualization of the zkSNARKs sequence happening in our system.
