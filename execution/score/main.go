@@ -12,7 +12,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/jung-kurt/gofpdf"
 )
-
 func generatePDF(caller string, status string, score float64) {
 	// Create a new PDF
 	pdf := gofpdf.New("P", "mm", "A4", "")
@@ -26,6 +25,27 @@ func generatePDF(caller string, status string, score float64) {
 	pdf.Ln(12)
 	pdf.Cell(40, 10, "SCORE: "+strconv.FormatFloat(score, 'f', 2, 64))
 
+	// Add the image
+	imageFile := "success.jpeg"
+	if status == "FAIL" {
+		imageFile = "fail.jpeg"
+	}
+	opt := gofpdf.ImageOptions{
+		ImageType:             "",
+		ReadDpi:               false,
+		AllowNegativePosition: true,
+	}
+	// Size of the image. Adjust as needed.
+	imageWidth := 150.0
+	imageHeight := 0.0 // auto height
+
+	// Calculate center position
+	pageWidth, pageHeight := pdf.GetPageSize()
+	x := (pageWidth - imageWidth) / 2
+	y := (pageHeight - imageHeight) / 3 // if imageHeight is 0, it will simply put the image in the middle of the page
+
+	pdf.ImageOptions(imageFile, x, y, imageWidth, imageHeight, false, opt, 0, "")
+
 	outputPath := "./outputs"
 	err := os.MkdirAll(outputPath, os.ModePerm)
 	if err != nil {
@@ -38,6 +58,7 @@ func generatePDF(caller string, status string, score float64) {
 		log.Fatalf("Failed to generate PDF: %v", err)
 	}
 }
+
 
 func main() {
 	// Load the env
