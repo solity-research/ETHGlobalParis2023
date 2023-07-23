@@ -14,15 +14,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log("ethereumPrivateKey", ethereumPrivateKey, ethereumNetwork, alchemyApiKey, contractAddress)
 
     const provider = new providers.AlchemyProvider("maticmum", alchemyApiKey)
-    console.log("provider", provider)
     const signer = new Wallet(ethereumPrivateKey, provider)
-    const contract = new Contract(contractAddress, CreditScore.abi, signer)
+    const contract = new Contract(contractAddress, CreditScore, signer)
 
     const { identityCommitment } = req.body
-
+    console.log(identityCommitment);
+    
     try {
-        const transaction = await contract.joinGroup(identityCommitment)
-        console.log("transaction", transaction);
+        const transaction = await contract.joinGroup(identityCommitment,{
+            gasLimit: 7590920
+        })
         await transaction.wait()
 
         res.status(200).end()
