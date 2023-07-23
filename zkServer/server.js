@@ -3,7 +3,7 @@ import { Identity } from "@semaphore-protocol/identity"
 import { Group } from "@semaphore-protocol/group"
 import { generateProof } from "@semaphore-protocol/proof"
 import {ethers, Wallet} from "ethers"
-
+import cors from "cors"
 BigInt.prototype.toJSON = function() { return this.toString() }
 
 const CONTRACT_ADDRESS = "0x94b0A45374Cda89f4fc769cA2f16A13daFaBd6C1"
@@ -184,12 +184,12 @@ app.get('/generateProof/:seed/:score', async (req, res) => {
 
 app.get('/generateProof/:seed/:score/execute', async (req, res) => {
 
-    const commitments = await contract.getCommitments();
+    const commitmaents = await contract.getCommitments();
     var theGroup = new Group(GROUP_ID, 16)
     var identity = new Identity(req.params.seed)
     var signal = ethers.encodeBytes32String(req.params.score)
 
-    commitments.forEach(element => {
+    commitmaents.forEach(element => {
         theGroup.addMember(element)
     });
 
@@ -206,7 +206,16 @@ app.get('/generateProof/:seed/:score/execute', async (req, res) => {
 
     res.send(fullProof);
 })
-
+app.use(cors({
+    origin: '*',
+    methods: ['PUT', 'PATCH', 'GET', 'DELETE', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Length'],
+    credentials: true,
+    maxAge: 12 * 60 * 60, // 12 hours in seconds
+}));
 app.listen(3003, () => {
     console.log('The application is listening on port 3000!');
 })
+
+
