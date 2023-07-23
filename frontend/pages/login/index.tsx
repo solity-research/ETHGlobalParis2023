@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CredentialType, IDKitWidget, ISuccessResult } from '@worldcoin/idkit'
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useRouter } from "next/router";
+import { Web3Button } from '@web3modal/react'
 
 declare global {
     interface Window {
@@ -254,8 +255,20 @@ const Login = () => {
                                 <label className="mb-2 inline-block text-sm text-gray-800 sm:text-base">Wallet Address</label>
                                 <input value={wallet.accounts[0]} disabled name="password" className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
                             </div>
-
+                            <div className="relative flex items-center justify-center">
+                                <span className="absolute inset-x-0 h-px bg-gray-300"></span>
+                                <span className="relative bg-white px-4 text-sm text-gray-400">
+                                   <p>Use Metamask</p>
+                                </span>
+                            </div>
                             <button onClick={handleConnect} className="block rounded-lg bg-cyan-600 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">Connect Wallet</button>
+                            <div className="relative flex items-center justify-center">
+                                <span className="absolute inset-x-0 h-px bg-gray-300"></span>
+                                <span className="relative bg-white px-4 text-sm text-gray-400">
+                                   <p>or use ConnectWallet</p>
+                                </span>
+                            </div>
+                            <Web3Button/>
                             <div className="relative flex items-center justify-center">
                                 <span className="absolute inset-x-0 h-px bg-gray-300"></span>
                                 <span className="relative bg-white px-4 text-sm text-gray-400">

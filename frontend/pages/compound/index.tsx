@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Bar } from 'react-chartjs-2';
 
 const CompoundPortal = () => {
     const [data, setData] = useState<Market[]>();
