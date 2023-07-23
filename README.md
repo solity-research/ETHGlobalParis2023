@@ -15,12 +15,12 @@ One of the key benefits for users is the ability to share their credit score wit
 When users decide to take out a loan, they can generate credit score cards bound to their wallet address in a decentralized manner. These credit score cards act as immutable records, providing lenders with reliable and tamper-proof information about the user's creditworthiness. This process creates a transparent and trustworthy environment, fostering better relationships between borrowers and lenders.
 
 Technologies Used:
-Decentralized Computation: Bacalhau + Lilipad
-Decentralized Storage: Filecoin + IPFS
-Zero-Knowledge Proofs: zkSNARKs
-Blockchain Platforms: WorldCoin, Polygon ZK &rarr; Semaphore, Ethereum ZK &rarr; Semaphore, Near
-OTP-Based Push Mechanism for Authentication &rarr; Push Protocol
-Price Oracles: 1Inch API, Chainlink
+- Decentralized Computation: Bacalhau + Lilipad
+- Decentralized Storage: Filecoin + IPFS
+- Zero-Knowledge Proofs: zkSNARKs
+- Blockchain Platforms: WorldCoin, Polygon ZK &rarr; Semaphore, Ethereum ZK &rarr; Semaphore, Near
+- OTP-Based Push Mechanism for Authentication &rarr; Push Protocol
+- Price Oracles: 1Inch API, Chainlink
 
 Our decentralized credit scoring system represents a step forward in the evolution of the financial landscape, offering more accessible and personalized credit options to users while preserving the security and privacy of their sensitive financial data. With our solution, we aim to foster a more inclusive and robust financial ecosystem for everyone. 
 
